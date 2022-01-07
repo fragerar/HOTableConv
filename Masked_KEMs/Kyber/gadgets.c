@@ -7,7 +7,7 @@
 
 void linear_arithmetic_refresh(Masked* x, unsigned q){
   uint16_t r[2];
-  for(int i=0; i< (KYBER_MASKING_ORDER-1); i+=2){
+  for(int i=0; i < (KYBER_MASKING_ORDER-1); i+=2){
     rand_q(r);
     x->shares[i] = (x->shares[i] + r[0])%q;
     x->shares[KYBER_MASKING_ORDER] = (x->shares[KYBER_MASKING_ORDER] - r[0] + q)%q;
@@ -22,6 +22,20 @@ void linear_arithmetic_refresh(Masked* x, unsigned q){
   #endif
 }
 
+
+
+void fill_masked_mod_q(Masked* x){
+  uint16_t r[2];
+  for(int i=0; i < KYBER_MASKING_ORDER; i+=2){
+    rand_q(r);
+    x->shares[i] = r[0];
+    x->shares[i+1] = r[1];
+  }
+  #if MASKING_ORDER%2 == 0
+  rand_q(r);
+  x->shares[KYBER_MASKING_ORDER] = r[0];
+  #endif
+}
 
 void linear_boolean_refresh(Masked* x, unsigned k){
   int r;

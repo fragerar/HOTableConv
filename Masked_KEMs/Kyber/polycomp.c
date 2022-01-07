@@ -235,7 +235,7 @@ void convert_A2B_CGV14_32bits(u32Masked* x, u32Masked* y, unsigned k){
 int zero_test_mod_mult(Masked* a, int q){
   uint16_t u_j, B;
   for(int j = 0; j < KYBER_MASKING_ORDER+1; ++j){
-    u_j = 1 + rand16()%(q-1);
+    u_j = 1 + uniform_rand16(q-1);
     for(int i=0; i < KYBER_MASKING_ORDER+1; ++i) a->shares[i] = (u_j*a->shares[i])%q;
     linear_arithmetic_refresh(a, q);
 
@@ -248,11 +248,11 @@ int zero_test_mod_mult(Masked* a, int q){
 
 int zero_testing_prime_multi(Masked* ppoly, int q, const int SIZE){
   Masked a, t, C;
-  for(int i=0; i < KYBER_MASKING_ORDER+1; ++i) a.shares[i] = rand16()%q;
+  for(int i=0; i < KYBER_MASKING_ORDER+1; ++i) fill_masked_mod_q(&a);
   sec_mult(&a, &ppoly[0], &C, q);
 
   for(int i=1; i < SIZE; ++i){
-    for(int j=0; j < KYBER_MASKING_ORDER+1; ++j) a.shares[j] = rand16()%q;
+    for(int j=0; j < KYBER_MASKING_ORDER+1; ++j) fill_masked_mod_q(&a);
     sec_mult(&a, &ppoly[i], &t, q);
     for(int j=0; j < KYBER_MASKING_ORDER+1; ++j) C.shares[j] = (C.shares[j] + t.shares[j])%q;
   }
@@ -273,7 +273,7 @@ int zero_test_poly_mul_with_reduction(Masked* ppoly, int q, int kappa, const int
   for(int k=0; k < kappa; ++k){
     for(int i=0; i < KYBER_MASKING_ORDER+1; ++i) y[k].shares[i] = 0;
     for(int j=0; j < SIZE; ++j){
-      a = rand16()%q;
+      a = uniform_rand16(q);
       for(int i=0; i < KYBER_MASKING_ORDER+1; ++i) y[k].shares[i] = (y[k].shares[i] + a*ppoly[j].shares[i])%q; 
     }
   }

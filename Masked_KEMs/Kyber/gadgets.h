@@ -14,6 +14,7 @@ typedef struct Masked {int shares[KYBER_MASKING_ORDER+1];} Masked;
 
 void convert_B2A(Masked* x, Masked* y, unsigned k, unsigned q);
 void linear_arithmetic_refresh(Masked* x, unsigned q);
+void fill_masked_mod_q(Masked* x);
 void linear_boolean_refresh(Masked* x, unsigned k);
 void boolean_refresh(Masked* x, unsigned k);
 void arithmetic_refresh(Masked* x, unsigned q); 
