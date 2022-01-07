@@ -7,7 +7,7 @@
 
 void linear_arithmetic_refresh(Masked* x, unsigned q){
   uint16_t r[2];
-  for(int i=0; i< KYBER_MASKING_ORDER; i+=2){
+  for(int i=0; i< (KYBER_MASKING_ORDER-1); i+=2){
     rand_q(r);
     x->shares[i] = (x->shares[i] + r[0])%q;
     x->shares[KYBER_MASKING_ORDER] = (x->shares[KYBER_MASKING_ORDER] - r[0] + q)%q;
