@@ -15,7 +15,7 @@ void linear_arithmetic_refresh(Masked* x, unsigned q){
     x->shares[i+1] = (x->shares[i+1] + r[1])%q;
     x->shares[KYBER_MASKING_ORDER] = (x->shares[KYBER_MASKING_ORDER] - r[1] + q)%q;
   }
-  #if MASKING_ORDER%2 == 1
+  #if KYBER_MASKING_ORDER%2 == 1
   rand_q(r);
   x->shares[KYBER_MASKING_ORDER-1] = (x->shares[KYBER_MASKING_ORDER-1] + r[0])%q;
   x->shares[KYBER_MASKING_ORDER] = (x->shares[KYBER_MASKING_ORDER] - r[0] + q)%q;
@@ -31,7 +31,7 @@ void fill_masked_mod_q(Masked* x){
     x->shares[i] = r[0];
     x->shares[i+1] = r[1];
   }
-  #if MASKING_ORDER%2 == 0
+  #if KYBER_MASKING_ORDER%2 == 0
   rand_q(r);
   x->shares[KYBER_MASKING_ORDER] = r[0];
   #endif
